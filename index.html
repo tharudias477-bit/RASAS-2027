@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASAS 2027 - University of Ruhuna</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a, #090d16);
+            color: #f8fafc;
+            position: relative;
+            overflow-x: hidden;
+            padding: 6px;
+        }
+
+        /* ========================================================
+           NEON BLUE-GRAY & ICE CYAN MOVING BORDER LIGHTS
+           ======================================================== */
+        .page-border-frame {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            border: 2px solid rgba(148, 163, 184, 0.25);
+            box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .light-line-top {
+            position: absolute;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #38bdf8, #ffffff);
+            animation: moveTop 4s linear infinite;
+        }
+
+        .light-line-top::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 12px #38bdf8, 0 0 25px #0284c7, 0 0 40px #7dd3fc;
+        }
+
+        .light-line-right {
+            position: absolute;
+            top: -250px;
+            right: 0;
+            width: 3px;
+            height: 250px;
+            background: linear-gradient(180deg, transparent, #94a3b8, #ffffff);
+            animation: moveRight 4s linear infinite;
+            animation-delay: 1s;
+        }
+
+        .light-line-right::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -4px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 12px #cbd5e1, 0 0 25px #64748b, 0 0 40px #94a3b8;
+        }
+
+        .light-line-bottom {
+            position: absolute;
+            bottom: 0;
+            right: -250px;
+            width: 250px;
+            height: 3px;
+            background: linear-gradient(270deg, transparent, #0ea5e9, #ffffff);
+            animation: moveBottom 4s linear infinite;
+            animation-delay: 2s;
+        }
+
+        .light-line-bottom::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -4px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 12px #0ea5e9, 0 0 25px #0284c7, 0 0 40px #38bdf8;
+        }
+
+        .light-line-left {
+            position: absolute;
+            bottom: -250px;
+            left: 0;
+            width: 3px;
+            height: 250px;
+            background: linear-gradient(0deg, transparent, #64748b, #ffffff);
+            animation: moveLeft 4s linear infinite;
+            animation-delay: 3s;
+        }
+
+        .light-line-left::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -4px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 12px #94a3b8, 0 0 25px #475569, 0 0 40px #cbd5e1;
+        }
+
+        @keyframes moveTop {
+            0% {
+                left: -250px;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes moveRight {
+            0% {
+                top: -250px;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        @keyframes moveBottom {
+            0% {
+                right: -250px;
+            }
+
+            100% {
+                right: 100%;
+            }
+        }
+
+        @keyframes moveLeft {
+            0% {
+                bottom: -250px;
+            }
+
+            100% {
+                bottom: 100%;
+            }
+        }
+
+        /* ========================================================
+           HEADER WITH RASAS LOGO & LOGIN BUTTON
+           ======================================================== */
+        header {
+            background: linear-gradient(90deg, #0f172a 0%, #334155 50%, #0f172a 100%);
+            color: white;
+            padding: 14px 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* RASAS Official Style Logo Box */
+        .rasas-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #cbd5e1;
+        }
+
+        .rasas-logo:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.7);
+            border-color: #38bdf8;
+        }
+
+        .logo-text-group {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .logo-main-title {
+            color: #7f1d1d;
+            /* Classic Academic Maroon */
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo-sub-title {
+            color: #475569;
+            font-size: 8.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .header-title-box {
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 30px;
+            letter-spacing: 5px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .year-badge {
+            background: linear-gradient(45deg, #3b82f6, #64748b);
+            color: #ffffff;
+            font-size: 15px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            border: 1px solid #93c5fd;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+        }
+
+        header p.subtitle {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-top: 5px;
+            letter-spacing: 1.6px;
+            font-weight: 500;
+        }
+
+        /* Header Login Button (Hover & Active States) */
+        .header-login-btn {
+            background: linear-gradient(135deg, #1e40af, #334155);
+            color: white;
+            border: 1px solid #60a5fa;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Mouse එක නිකන් තිබ්බම (Hover) වෙන පාට */
+        .header-login-btn:hover {
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
+            color: #0f172a;
+            border-color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 18px rgba(56, 189, 248, 0.8);
+        }
+
+        /* Click කළාම (Active / Clicked) වෙන පාට */
+        .header-login-btn:active,
+        .header-login-btn.btn-clicked {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #ffffff;
+            border-color: #6ee7b7;
+            transform: scale(0.97);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Left Sidebar */
+        .left-sidebar {
+            width: 22%;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 22px 18px;
+            border-right: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .left-sidebar h3 {
+            margin-bottom: 18px;
+            border-bottom: 2px solid #60a5fa;
+            padding-bottom: 8px;
+            font-size: 15px;
+            letter-spacing: 1.5px;
+            color: #e2e8f0;
+        }
+
+        .left-sidebar ul {
+            list-style-type: none;
+        }
+
+        .left-sidebar ul li {
+            margin: 9px 0;
+        }
+
+        .left-sidebar ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        /* 1. Mouse එක නිකන් උඩින් තිබ්බම (Hover Color - Ice Cyan / Sky Blue) */
+        .left-sidebar ul li a:hover {
+            background: rgba(56, 189, 248, 0.22);
+            border: 1px solid #38bdf8;
+            color: #7dd3fc;
+            transform: translateX(6px);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+        }
+
+        /* 2. Click කරලා තියෙන වෙලාවට (Active / Clicked Color - Emerald / Royal Blue Glow) */
+        .left-sidebar ul li a.active {
+            background: linear-gradient(90deg, #0284c7, #0d9488);
+            border: 1px solid #5eead4;
+            color: #ffffff;
+            font-weight: 700;
+            transform: translateX(6px);
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.45);
+        }
+
+        /* 3. Click කරන මොහොතේම තද වෙන පාට */
+        .left-sidebar ul li a:active {
+            background: #f59e0b;
+            color: #0f172a;
+            transform: scale(0.98);
+        }
+
+        /* Center Content Area */
+        .center-content {
+            width: 58%;
+            padding: 32px;
+            background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.78), rgba(51, 65, 85, 0.78)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        /* Pop-up Card */
+        .popup-card {
+            background: rgba(248, 250, 252, 0.96);
+            backdrop-filter: blur(12px);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(96, 165, 250, 0.3);
+            width: 100%;
+            max-width: 750px;
+            animation: popUpEffect 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            border-top: 5px solid #3b82f6;
+            color: #1e293b;
+        }
+
+        @keyframes popUpEffect {
+            0% {
+                opacity: 0;
+                transform: scale(0.85) translateY(25px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .popup-card h2 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .popup-card .lead-text {
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-top: 12px;
+        }
+
+        .mini-card {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 16px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .mini-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 18px rgba(51, 65, 85, 0.18);
+            border-color: #3b82f6;
+            background: #ffffff;
+        }
+
+        .mini-card h4 {
+            color: #2563eb;
+            margin-bottom: 6px;
+            font-size: 15.5px;
+        }
+
+        .mini-card p {
+            color: #334155;
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons Inside Content (Hover & Click Colors) */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            background: linear-gradient(90deg, #1d4ed8, #475569);
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            display: inline-block;
+        }
+
+        /* Mouse Hover */
+        .action-btn:hover {
+            background: linear-gradient(90deg, #0284c7, #38bdf8);
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Mouse Click */
+        .action-btn:active {
+            background: #059669;
+            color: #ffffff;
+            transform: scale(0.96);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(90deg, #1e293b, #334155);
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            margin-top: 18px;
+            text-align: center;
+            border: 1px solid #475569;
+            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.25);
+        }
+
+        .stat-item h3 {
+            color: #60a5fa;
+            font-size: 22px;
+        }
+
+        .stat-item span {
+            font-size: 11.5px;
+            color: #cbd5e1;
+        }
+
+        /* Forms */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .contact-form label {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: -6px;
+        }
+
+        .contact-form input,
+        .contact-form select,
+        .contact-form textarea {
+            padding: 11px 13px;
+            border: 1px solid #94a3b8;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 100%;
+            background: #ffffff;
+            color: #1e293b;
+        }
+
+        .contact-form input:focus,
+        .contact-form select:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .contact-form button {
+            background: linear-gradient(90deg, #1d4ed8, #475569);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-top: 4px;
+        }
+
+        .contact-form button:hover {
+            background: linear-gradient(90deg, #0284c7, #38bdf8);
+            color: #0f172a;
+        }
+
+        .contact-form button:active {
+            background: #059669;
+            color: #ffffff;
+            transform: scale(0.98);
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #475569;
+            margin-top: 4px;
+        }
+
+        .login-options a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            width: 20%;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 22px 18px;
+            border-left: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .right-sidebar h3 {
+            color: #e2e8f0;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #94a3b8;
+            padding-bottom: 8px;
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+
+        .right-box {
+            background: rgba(15, 23, 42, 0.75);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #60a5fa;
+        }
+
+        .right-box h4 {
+            color: #f8fafc;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .right-box p {
+            font-size: 12.5px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(96, 165, 250, 0.15);
+            color: #93c5fd;
+            border: 1px solid rgba(96, 165, 250, 0.35);
+            font-size: 10.5px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            margin-top: 6px;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: #090d16;
+            color: #94a3b8;
+            text-align: center;
+            padding: 14px 0;
+            font-size: 13.5px;
+            letter-spacing: 0.5px;
+            border-top: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        footer span {
+            color: #60a5fa;
+            font-weight: bold;
+        }
+
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .left-sidebar,
+            .center-content,
+            .right-sidebar {
+                width: 100%;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-border-frame">
+        <div class="light-line-top"></div>
+        <div class="light-line-right"></div>
+        <div class="light-line-bottom"></div>
+        <div class="light-line-left"></div>
+    </div>
+
+    <!-- Header with RASAS Logo -->
+    <header>
+        <!-- Custom SVG Academic Emblem Logo for RASAS -->
+        <div class="rasas-logo" onclick="changeContent('home', document.querySelectorAll('.left-sidebar a')[0])"
+            title="RASAS Home">
+            <svg width="34" height="34" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M32 4C22 16 14 26 14 38C14 48 22 56 32 60C42 56 50 48 50 38C50 26 42 16 32 4Z"
+                    fill="#B91C1C" />
+                <path d="M32 14C26 22 21 29 21 38C21 45 26 51 32 54C38 51 43 45 43 38C43 29 38 22 32 14Z"
+                    fill="#F59E0B" />
+                <circle cx="32" cy="36" r="6" fill="#FEF08A" />
+            </svg>
+            <div class="logo-text-group">
+                <span class="logo-main-title">RASAS</span>
+                <span class="logo-sub-title">Ruhuna Arts Students'<br>Annual Sessions</span>
+            </div>
+        </div>
+
+        <div class="header-title-box">
+            <h1>RASAS <span class="year-badge">2027</span></h1>
+            <p class="subtitle">Ruhuna Arts Students' Annual Sessions • Faculty of Humanities and Social Sciences</p>
+        </div>
+
+        <button id="top-login-btn" class="header-login-btn" onclick="openLogin()">🔐 Login</button>
+    </header>
+
+    <div class="main-container">
+
+        <!-- Left Sidebar (Menu) -->
+        <nav class="left-sidebar">
+            <h3>NAVIGATION</h3>
+            <ul>
+                <li><a onclick="changeContent('home', this)" class="active">🏠 Home</a></li>
+                <li><a onclick="changeContent('team', this)">👥 Conference Team</a></li>
+                <li><a onclick="changeContent('abstracts', this)">📜 Abstract Proceedings</a></li>
+                <li><a onclick="changeContent('submission', this)">📤 Submission Details</a></li>
+                <li><a onclick="changeContent('programme', this)">📅 Programme</a></li>
+                <li><a onclick="changeContent('gallery', this)">🎨 Gallery</a></li>
+                <li><a onclick="changeContent('contact', this)">📞 Contact Us</a></li>
+                <li><a id="nav-login-btn" onclick="changeContent('login', this)">🔐 Portal Login</a></li>
+            </ul>
+        </nav>
+
+        <!-- Center Content Area -->
+        <main class="center-content" id="main-content">
+            <div class="popup-card">
+                <h2>🎓 Welcome to RASAS-2027</h2>
+                <p class="lead-text"><strong>"Spirit of Sprouting Researchers of Tomorrow"</strong> — Call for Research
+                    Papers is now officially open for the Annual Sessions of the Faculty of Humanities and Social
+                    Sciences, University of Ruhuna.</p>
+
+                <div class="info-grid">
+                    <div class="mini-card">
+                        <h4>📍 Conference Venue</h4>
+                        <p>Faculty of Humanities and Social Sciences, University of Ruhuna, Matara, Sri Lanka.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4>📅 Conference Date</h4>
+                        <p>October 29th, 2027 — Hosted by the Department of Information Technology.</p>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <a href="#" onclick="alert('Downloading Technical Session Booklet...');" class="action-btn">📥
+                        Download Technical Session Booklet</a>
+                    <a href="#" onclick="changeContent('submission', document.querySelectorAll('.left-sidebar a')[3]);"
+                        class="action-btn">✍️ Call for Papers</a>
+                </div>
+
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <h3>2027</h3><span>Session Year</span>
+                    </div>
+                    <div class="stat-item">
+                        <h3>UoR</h3><span>University of Ruhuna</span>
+                    </div>
+                    <div class="stat-item">
+                        <h3>FHSS</h3><span>Faculty Sessions</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar (Updates) -->
+        <aside class="right-sidebar">
+            <h3>IMPORTANT UPDATES</h3>
+
+            <div class="right-box">
+                <h4>📄 Call for Papers</h4>
+                <p>Undergraduate researchers are invited to submit original research abstracts for RASAS-2027.</p>
+                <span class="tag">OPEN NOW</span>
+            </div>
+
+            <div class="right-box">
+                <h4>📅 Submission Deadline</h4>
+                <p>Final deadline for extended abstract submissions is August 30th, 2027.</p>
+                <span class="tag">DEADLINE</span>
+            </div>
+
+            <div class="right-box">
+                <h4>💡 Formatting Rules</h4>
+                <p>All manuscripts must strictly adhere to APA 7th Edition citation guidelines.</p>
+                <span class="tag">GUIDELINES</span>
+            </div>
+        </aside>
+
+    </div>
+
+    <footer>
+        &copy; <span>RASAS 2027</span> | University of Ruhuna. All Rights Reserved.
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function openLogin() {
+            const loginNavLink = document.getElementById('nav-login-btn');
+            changeContent('login', loginNavLink);
+        }
+
+        function changeContent(page, element) {
+            const contentArea = document.getElementById('main-content');
+            const topLoginBtn = document.getElementById('top-login-btn');
+
+            const links = document.querySelectorAll('.left-sidebar a');
+            links.forEach(link => link.classList.remove('active'));
+
+            if (element) {
+                element.classList.add('active');
+            }
+
+            // Header Login Button එකේ click කළ පාට පාලනය කිරීම
+            if (page === 'login') {
+                topLoginBtn.classList.add('btn-clicked');
+            } else {
+                topLoginBtn.classList.remove('btn-clicked');
+            }
+
+            let htmlContent = '';
+
+            if (page === 'home') {
+                htmlContent = `
+                    <h2>🎓 Welcome to RASAS-2027</h2>
+                    <p class="lead-text"><strong>"Spirit of Sprouting Researchers of Tomorrow"</strong> — Call for Research Papers is now officially open for the Annual Sessions of the Faculty of Humanities and Social Sciences, University of Ruhuna.</p>
+                    <div class="info-grid">
+                        <div class="mini-card">
+                            <h4>📍 Conference Venue</h4>
+                            <p>Faculty of Humanities and Social Sciences, University of Ruhuna, Matara, Sri Lanka.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>📅 Conference Date</h4>
+                            <p>October 29th, 2027 — Hosted by the Department of Information Technology.</p>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <a href="#" onclick="alert('Downloading Technical Session Booklet...');" class="action-btn">📥 Download Technical Session Booklet</a>
+                        <a href="#" onclick="changeContent('submission', document.querySelectorAll('.left-sidebar a')[3]);" class="action-btn">✍️ Call for Papers</a>
+                    </div>
+                    <div class="stats-bar">
+                        <div class="stat-item"><h3>2027</h3><span>Session Year</span></div>
+                        <div class="stat-item"><h3>UoR</h3><span>University of Ruhuna</span></div>
+                        <div class="stat-item"><h3>FHSS</h3><span>Faculty Sessions</span></div>
+                    </div>
+                `;
+            } else if (page === 'team') {
+                htmlContent = `
+                    <h2>👥 Conference Organizing Committee</h2>
+                    <p class="lead-text">Meet the academic advisory panel and organizing committee behind RASAS-2027:</p>
+                    <div class="info-grid">
+                        <div class="mini-card">
+                            <h4>👨‍🏫 Chief Patron</h4>
+                            <p>Dean, Faculty of Humanities and Social Sciences, University of Ruhuna.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>💻 Conference Chair</h4>
+                            <p>Head & Academic Staff, Department of Information Technology, UoR.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>🧑‍🎓 Student Organizing Committee</h4>
+                            <p>Undergraduate student coordinators and technical session chairs.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>🔬 Editorial & Review Board</h4>
+                            <p>Senior lecturers and external peer reviewers across multiple disciplines.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (page === 'abstracts') {
+                htmlContent = `
+                    <h2>📜 Abstract Proceedings</h2>
+                    <p class="lead-text">Access published conference proceedings and official formatting templates:</p>
+                    <div class="info-grid">
+                        <div class="mini-card">
+                            <h4>📚 RASAS-2026 Proceedings</h4>
+                            <p>Browse and download the full digital volume of peer-reviewed abstracts from previous sessions.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>🔍 Author Style Template</h4>
+                            <p>Download the official MS Word abstract template formatted with required margins and fonts.</p>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <a href="#" onclick="alert('Downloading Abstract Proceedings PDF...');" class="action-btn">📥 Download Proceedings PDF</a>
+                        <a href="#" onclick="alert('Downloading Word Template...');" class="action-btn">📄 Download Author Template</a>
+                    </div>
+                `;
+            } else if (page === 'submission') {
+                htmlContent = `
+                    <h2>📤 Submission Details & Call for Papers</h2>
+                    <p class="lead-text">Submit your extended research abstract online for peer review:</p>
+                    <div class="info-grid">
+                        <div class="mini-card">
+                            <h4>✍️ Abstract Requirements</h4>
+                            <p>Maximum 300 words including title, author affiliations, 4–5 keywords, and APA 7th references.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>📧 Official Correspondence</h4>
+                            <p>Inquiries regarding paper tracks can be directed to <strong>rasas@hum.ruh.ac.lk</strong>.</p>
+                        </div>
+                    </div>
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Your research abstract has been successfully uploaded to RASAS-2027!');">
+                        <input type="text" placeholder="Primary Author Full Name" required>
+                        <input type="email" placeholder="University / Institutional Email Address" required>
+                        <input type="file" accept=".pdf,.doc,.docx" required style="padding: 7px;">
+                        <button type="submit">Upload Research Abstract (.PDF / .DOCX)</button>
+                    </form>
+                `;
+            } else if (page === 'programme') {
+                htmlContent = `
+                    <h2>📅 Conference Programme</h2>
+                    <p class="lead-text">Official schedule for RASAS-2027 on October 29th, 2027:</p>
+                    <div class="info-grid">
+                        <div class="mini-card">
+                            <h4>⏰ 08:30 AM — Inauguration</h4>
+                            <p>Welcome address, lighting of the traditional oil lamp, and Keynote Speech.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>⏰ 10:30 AM — Technical Sessions I</h4>
+                            <p>Parallel oral research paper presentations across Humanities & IT tracks.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>⏰ 01:30 PM — Technical Sessions II</h4>
+                            <p>Afternoon research presentations and interactive Q&A panel discussions.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>⏰ 04:00 PM — Valedictory & Awards</h4>
+                            <p>Best Presenter awards ceremony and official vote of thanks.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (page === 'gallery') {
+                htmlContent = `
+                    <h2>🎨 Conference Gallery</h2>
+                    <p class="lead-text">Highlights and memorable moments from Ruhuna Arts Students' Annual Sessions:</p>
+                    <div class="info-grid">
+                        <div class="mini-card">
+                            <h4>📸 Keynote & Inauguration</h4>
+                            <p>Distinguished academics, faculty members, and student delegates at the main auditorium.</p>
+                        </div>
+                        <div class="mini-card">
+                            <h4>📸 Oral & Poster Presentations</h4>
+                            <p>Undergraduate researchers presenting their empirical findings to review panels.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (page === 'contact') {
+                htmlContent = `
+                    <h2>📞 Contact Us</h2>
+                    <p class="lead-text">Have questions regarding paper submissions or registration? Reach out to the secretariat:</p>
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Your message has been sent to the RASAS-2027 Secretariat!');">
+                        <input type="text" placeholder="Your Full Name" required>
+                        <input type="email" placeholder="Your Email Address" required>
+                        <textarea rows="3" placeholder="Type your inquiry here..." required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                    <div style="margin-top: 12px; font-size: 13.5px; color: #1e3a8a; display: flex; justify-content: space-between; font-weight: 600;">
+                        <span>📧 rasas@hum.ruh.ac.lk</span>
+                        <span>📱 +94 41 222 2681 (Ext. 3100)</span>
+                    </div>
+                `;
+            } else if (page === 'login') {
+                htmlContent = `
+                    <h2>🔐 RASAS-2027 Conference Portal Login</h2>
+                    <p class="lead-text">Sign in to manage your submitted research papers, check peer-review status, or access reviewer tools.</p>
+                    
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Successfully logged into RASAS-2027 Research Portal!');">
+                        <label for="user-role">Select Account Role</label>
+                        <select id="user-role" required>
+                            <option value="author">Author / Undergraduate Researcher</option>
+                            <option value="reviewer">Peer Reviewer / Academic Staff</option>
+                            <option value="admin">Session Coordinator / Admin</option>
+                        </select>
+
+                        <label for="login-email">University Email / Username</label>
+                        <input type="email" id="login-email" placeholder="e.g., student@hum.ruh.ac.lk" required>
+
+                        <label for="login-pass">Password</label>
+                        <input type="password" id="login-pass" placeholder="Enter your password" required>
+
+                        <div class="login-options">
+                            <label style="display: flex; align-items: center; gap: 6px; font-weight: normal; margin: 0;">
+                                <input type="checkbox" style="width: auto;"> Remember me
+                            </label>
+                            <a href="#" onclick="event.preventDefault(); alert('Password reset link has been sent to your email.');">Forgot Password?</a>
+                        </div>
+
+                        <button type="submit">Sign In to Portal</button>
+                    </form>
+
+                    <div style="margin-top: 16px; text-align: center; font-size: 13.5px; color: #475569; border-top: 1px solid #cbd5e1; padding-top: 12px;">
+                        New researcher? <a href="#" onclick="event.preventDefault(); changeContent('submission', document.querySelectorAll('.left-sidebar a')[3]);" style="color: #2563eb; font-weight: 600; text-decoration: none;">Register & Submit Paper Here</a>
+                    </div>
+                `;
+            }
+
+            contentArea.innerHTML = `<div class="popup-card">${htmlContent}</div>`;
+        }
+    </script>
+
+</body>
+
+</html>
